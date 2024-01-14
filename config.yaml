@@ -1,6 +1,6 @@
 
     # Paths to read and save data
-    parent_path:
+    parent_path: C:/Users/paul/Desktop/work1/rendezvous/CholecT45/CholecT45
     path_csv: dataframes/CholecT45.csv
     train_path: data/
     output_dir:

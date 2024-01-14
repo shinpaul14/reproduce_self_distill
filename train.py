@@ -6,6 +6,7 @@ import torch
 import pandas as pd
 import neptune
 import ivtmetrics
+from ivtmetrics.recognition import Recognition
 from sklearn.metrics import average_precision_score
 from torch.utils.data import DataLoader
 import torch.nn as nn
@@ -88,18 +89,18 @@ def train_fnt(CFG):
 
             ##Load model and send it to the GPU
             model = TripletModel(CFG, CFG.model_name, pretrained=True).to(CFG.device)
-
             ##Get train and valid indexes
             trn_idx = folds[folds["fold"] != fold].index
             val_idx = folds[folds["fold"] == fold].index
 
             # Get train dataset
             train_folds = folds.loc[trn_idx].reset_index(drop=True)
-
+            # 70740 datas 
             # Get valid dataset
             valid_folds = folds.loc[val_idx].reset_index(drop=True)
+            # 19749 datas
             valid_folds2 = folds.loc[val_idx].reset_index(drop=True)
-
+            # valid_folds2 is same as valid_folds this line of code is not used.
             # Apply self-distillation to the student model only
             if CFG.distill:
 
@@ -216,7 +217,8 @@ def train_fnt(CFG):
             tri0_idx = int(valid_folds.columns.get_loc("tri0"))
 
             ##Initiate the ivt metric
-            recognize = ivtmetrics.Recognition(num_class=100)
+            # recognize = ivtmetrics.Recognition(num_class=100)
+            recognize = Recognition(num_class=100)
 
             # Start training: Loop over epochs
             print(header)
@@ -258,8 +260,11 @@ def train_fnt(CFG):
                     preds[:, :100],
                     average=None,
                 )
+                print('valid_folds.iloc[:, tri0_idx : tri0_idx + 100].values shape is: ', valid_folds.iloc[:, tri0_idx : tri0_idx + 100].values.shape)
                 mAP = np.nanmean(classwise)
-
+                print('preds shape is: ', preds.shape)
+                print('avg_val_loss is : ', avg_val_loss)
+                
                 # Log the epoch results to neptune
                 if CFG.neplog:
                     run[f"tloss{fold}"].log(avg_loss)
@@ -278,7 +283,8 @@ def train_fnt(CFG):
                         (time.time() - epoch_start) / 60 ** 1,
                     )
                 )
-
+                # if True: 
+                #     assert print('stop here')
                 # Save checkpoints
                 save_checkpoint_path = os.path.join(
                     output_dir,

@@ -13,13 +13,13 @@ class TripletModel(nn.Module):
         """
 
         # Load the backbone
-        self.model = timm.create_model(model_name, pretrained=pretrained)
+        self.model = timm.create_model(model_name, pretrained=pretrained,num_classes=CFG.target_size) 
 
-        # Get the number features in final embedding
-        n_features = self.model.head.in_features
+        # # Get the number features in final embedding
+        # n_features = self.model.head.in_features
 
-        # Update the classification layer with our custom target size
-        self.model.head = nn.Linear(n_features, CFG.target_size)
+        # # Update the classification layer with our custom target size
+        # self.model.head = nn.Linear(n_features, CFG.target_size)
 
     # Forward pass
     def forward(self, x):

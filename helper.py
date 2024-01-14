@@ -3,7 +3,7 @@ import numpy as np
 from torch.cuda import amp
 import torch
 from tri_index import index_by_occurrence
-
+from tqdm import tqdm
 from torch.optim.lr_scheduler import (
     CosineAnnealingWarmRestarts,
     CosineAnnealingLR,
@@ -38,15 +38,17 @@ def train_fn(
     losses = AverageMeter()
 
     # switch to train mode
-    model.train()
+    # model.train()
+    start_time = time.time()
 
     model.train()
-    for step, data in enumerate(train_loader):
+    # for step, data in enumerate(train_loader):
+    for step, (images, labels) in enumerate(tqdm(train_loader, desc="Training")):
 
         # Get the batch of images and labels
-        images, labels = data
+        # images, labels = data
         batch_size = labels.size(0)
-
+ 
         # Start the optimizer
         optimizer.zero_grad()
 

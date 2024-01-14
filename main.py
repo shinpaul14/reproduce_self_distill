@@ -1,7 +1,8 @@
 from train import train_fnt
 import hydra
 import warnings
-
+import os
+os.environ["HYDRA_FULL_ERROR"] = "1"
 warnings.filterwarnings("ignore")
 
 
@@ -11,4 +12,5 @@ def train(CFG):
 
 
 if __name__ == "__main__":
+
     train()
