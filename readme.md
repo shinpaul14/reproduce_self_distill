@@ -2,7 +2,7 @@
 
 This repo serves as reproduction code for the paper "Self-Distillation for Surgical Action Recognition" see, [ArXiV](https://arxiv.org/abs/2303.12915) to be published at MICCAI 2023.
 
-![](./figures/concept_overview.png)
+# Original code based [github](https://github.com/IMSY-DKFZ/self-distilled-swin)
 
 <!-- <p align="center">
   <img src="./figures/concept_overview.png" alt="Figure">
