@@ -262,8 +262,8 @@ def train_fnt(CFG):
                 )
                 print('valid_folds.iloc[:, tri0_idx : tri0_idx + 100].values shape is: ', valid_folds.iloc[:, tri0_idx : tri0_idx + 100].values.shape)
                 mAP = np.nanmean(classwise)
-                print('preds shape is: ', preds.shape)
-                print('avg_val_loss is : ', avg_val_loss)
+                # print('preds shape is: ', preds.shape)
+                # print('avg_val_loss is : ', avg_val_loss)
                 
                 # Log the epoch results to neptune
                 if CFG.neplog:
